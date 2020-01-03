@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wcz.dao.DetailDao">
+    <sql id="ziduan">
+        id,projectId,severity,title,reportUser,createDte
+    </sql>
+
+    <select id="selectDetail" resultType="detail">
+        select
+        <include refid="ziduan"/>
+        from bug_detail
+        <where>
+            <if test="projectId !=null and projectId!='' ">
+                and projectId=#{projectId}
+            </if>
+        </where>
+        order by createDte desc
+    </select>
+
+    <insert id="add" >
+        insert into bug_detail (projectId, severity, title, reportUser, createDte)values (#{detail.projectId},#{detail.severity},#{detail.title},#{detail.reportUser},SYSDATE())
+    </insert>
+</mapper>
